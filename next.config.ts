@@ -6,8 +6,19 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  serverExternalPackages: ["better-sqlite3"],
   turbopack: {
     root: path.resolve(__dirname),
+  },
+  webpack: (config) => {
+    config.externals.push("pino-pretty", "encoding");
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+    return config;
   },
 };
 
