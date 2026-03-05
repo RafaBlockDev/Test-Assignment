@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useAppKit } from "@reown/appkit/react";
 import { useAccount, useDisconnect } from "wagmi";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,11 @@ export function ConnectButton() {
   const { address, isConnecting, isConnected, chain } = useAccount();
   const { disconnect } = useDisconnect();
   const { reset } = useWalletContext();
+  const [mounted, setMounted] = useState(false);
 
-  if (isConnecting) {
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted || isConnecting) {
     return (
       <Button variant="outline" disabled className="border-zinc-700 text-zinc-400">
         <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
